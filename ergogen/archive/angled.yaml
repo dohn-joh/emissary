@@ -1,0 +1,565 @@
+units:
+  $default_width: u # u = 19mm
+  $default_height: u
+  angle: 15
+  split: 44.365 # goal is to have ~ 100mm between homing keys
+  capxy: 18.4 # 1u dimensions are 18.4x18.4
+  gap: 0.6 # gap between keycaps (19-18.4)
+  thumb_offset: 2u
+  switch_xy_mx: 14 # switch hole
+  switch_xy_choc: 13.75
+  lxy: 19.5
+  sf: 19.151 # sf=19.151 combined with hotswap outer_pad_width=2.4 gets hotswap pad right up against pcb edge without DRC error.
+  ## supermini dimensions
+  # mcux: 18.1 # with 0.1mm tolerance for fr4 variance
+  # mcuy: 33.85 # length from usb to end of pcb
+  ## promicro footprint dimensions
+  mcuy: 17.78
+  mcux: 33.08
+  # space between keycap and case wall
+  wallxy: 1.025
+  min_wall_thickness: 0.7
+
+  # 301230 battery dimensions
+  bcx: 12.5+0.8
+  bcy: 31.5+0.8
+
+  # reset switch dimensions
+  rsx: 4.7
+  rsy: 3.5
+  rsh: 0.75 # hole diameter
+  rsd: 2.75 # distance between holes
+  rcx: 11 # reset switch cutout
+  rcy: 9 # reset switch cutout
+
+  # screw hole diameter (M2)
+  # screw head diameter ~3.3
+  # M2 nut height ~1.5
+  scd: 2.2
+  # threaded insert diameter
+  tid: 3
+  # screw hole diameter for case bottom
+  scb: 2.45
+  # screwhead diameter
+  sch: 4.5
+
+  # DON'T BOTHER TRYING TO MAKE OFFSETS USING EXPAND UNLESS THE PCB IS PERFECTLY RECTANGULAR. ANY OTHER SHAPES WILL NOT WORK.
+  case_offset: 0.5 # PLA: experimented with .25mm. bad fit. it's not worth trying to tighten up this tolerance.
+  case_thickness: 2.75 # PLA: 1.5mm results in warped walls. can reduce if you want to print in different material.
+  # DON'T fillet the inner corners of the case. makes tolerances more difficult to dial in with PLA. just keep square corners.
+
+points:
+  zones:
+    r1:
+      anchor:
+        rotate: -angle/2
+      key:
+        width: u
+        height: u
+        autobind: 0
+        tags: alphas
+      mirror:
+        ref: r1_t_top
+        distance: split
+      rows.top:
+        row_net: R1
+      columns:
+        q:
+          key:
+            bind: [0, 4u, 2u, 0.25u]
+            width: 1.5u
+            column_net: C1
+            mirror.column_net: C10
+            tags: [alphas, five]
+        w:
+          key:
+            spread: 1.5u/2+u/2
+            column_net: C2
+            mirror.column_net: C9
+        e:
+          key:
+            column_net: C3
+            mirror.column_net: C8
+        r:
+          key:
+            column_net: C4
+            mirror.column_net: C7
+        t:
+          key:
+            column_net: C5
+            mirror.column_net: C6
+    r2:
+      anchor:
+        ref: r1_q_top
+        shift: [0, -u]
+      key:
+        width: u
+        height: u
+        autobind: 0
+        tags: alphas
+      mirror:
+        ref: r1_t_top
+        distance: split
+      rows.home:
+        row_net: R3
+      columns:
+        a:
+          key:
+            width: 1.5u
+            column_net: C1
+            mirror.column_net: C10
+            tags: [alphas, five]
+        s:
+          key:
+            spread: 1.5u/2 + u/2
+            column_net: C2
+            mirror.column_net: C9
+        d:
+          key:
+            column_net: C3
+            mirror.column_net: C8
+        f:
+          key:
+            column_net: C4
+            mirror.column_net: C7
+        g:
+          key:
+            column_net: C5
+            mirror.column_net: C6
+    r3:
+      anchor:
+        ref: r1_q_top
+        shift: [0, -2u]
+      key:
+        width: u
+        height: u
+        autobind: 0
+        tags: alphas
+      mirror:
+        ref: r1_t_top
+        distance: split
+      rows.bottom:
+        row_net: R4
+      columns:
+        z:
+          key:
+            width: 1.5u
+            column_net: C1
+            mirror.column_net: C10
+            tags: [alphas, five]
+        x:
+          key:
+            spread: 1.5u/2+u/2
+            column_net: C2
+            mirror.column_net: C9
+        c:
+          key:
+            column_net: C3
+            mirror.column_net: C8
+        v:
+          key:
+            column_net: C4
+            mirror.column_net: C7
+        b:
+          key:
+            column_net: C5
+            mirror.column_net: C6
+    r4:
+      anchor:
+        ref: r2_d_home
+        shift: [0, -2.25u]
+      key:
+        width: u
+        height: u
+        autobind: 0
+        tags: thumbs
+      mirror:
+        ref: r1_t_top
+        distance: split
+      rows.thumb:
+        row_net: R5
+      columns:
+        flex:
+          key:
+            bind: [0.5u, 0, 0, 0]
+            shift: [-2.975, 1.775]
+            rotate: -17
+            column_net: C3
+            mirror.column_net: C8
+            tags: flex
+        base:
+          key:
+            bind: [0.5u, 0, 0, 0]
+            column_net: C4
+            mirror.column_net: C7
+        ext:
+          key:
+            # bind: [0.5u, 0, 0, 2u+8] #for testing
+            bind: [0.5u, 0, 0, 0]
+            shift: [0, -0.25u]
+            column_net: C5
+            mirror.column_net: C6
+    ref_center:
+      anchor:
+        aggregate.parts: [r2_f_home, mirror_r2_f_home]
+        shift: [0, -11.028092]
+    ref_mcu:
+      anchor:
+        ref: ref_center
+        shift: [0, 31.25797-0.975]
+    ref_battery:
+      anchor:
+        ref: ref_center
+        shift: [0, -5]
+    ref_battery_connector:
+      anchor: 
+        ref: ref_center
+        shift: [4.44, -33.65]
+    ref_switch_power:
+      anchor:
+        ref: ref_center
+        shift: [0, -10]
+    ref_switch_reset:
+      anchor:
+        ref: ref_center
+        shift: [0, -44.65]
+    screw_top_left:
+      anchor:
+        ref: ref_center
+        shift: [-122.8125, 43]
+    screw_top_center:
+      anchor:
+        ref: ref_center
+        shift: [0, 43]
+    screw_top_right:
+      anchor:
+        ref: ref_center
+        shift: [122.812, 43]
+    screw_bottom_left:
+      anchor:
+        ref: ref_center
+        shift: [-122.8125, -43]
+    screw_bottom_center:
+      anchor:
+        ref: ref_center
+        shift: [0, -43]
+    screw_bottom_right:
+      anchor:
+        ref: ref_center
+        shift: [122.8125, -43]
+
+outlines:
+  # !!!add fillets at the very end!!! or you will get malformed outline (self-intersecting) errors in kicad
+  _pcb_shape:
+    - what: rectangle
+      bound: true
+      size: sf
+      where: [alphas, thumbs, flex]
+    - what: rectangle
+      where: ref_center
+      size: [45.237531, 84.918244]
+      # size: [50, 15] # for test prints
+      adjust.shift: [0, -6.829848]
+    # - what: rectangle
+    #   where: ref_center
+    #   size: [230.389525, 49.28897]
+    #   adjust.shift: [0, 49.28897/2]
+  _debug_ref_center:
+    - what: circle
+      where: ref_center
+      radius: 1
+  test:
+    - name: _pcb_shape
+    - what: rectangle
+      bound: true
+      size: sf
+      where: [alphas, thumbs, flex]
+  _case_top_offset1:
+    - name: _pcb_shape
+      expand: case_offset
+      joints: 1
+  _case_top_offset2:
+    - name: _pcb_shape
+      expand: case_offset+case_thickness
+      joints: 1
+  case_top:
+    - name: _pcb_shape
+    - name: _case_top_offset1
+      operation: stack
+    - name: _case_top_offset2
+      operation: stack
+  key_walls:
+    - what: rectangle
+      bound: false
+      size: [u-gap+2wallxy, u-gap+2wallxy]
+      where: [alphas, thumbs]
+    - what: rectangle
+      bound: false
+      size: [1.25u-gap+2wallxy, u-gap+2wallxy]
+      where: twofive
+    - what: rectangle
+      bound: false
+      size: [1.5u-gap+2wallxy, u-gap+2wallxy]
+      where: five
+    - what: rectangle
+      bound: false
+      size: [1.75u-gap+2wallxy, u-gap+2wallxy]
+      where: sevenfive
+  _key_walls_check:
+    - what: rectangle
+      bound: false
+      size: [u-gap+2(wallxy+min_wall_thickness), u-gap+2(wallxy+min_wall_thickness)]
+      where: [alphas, thumbs, flex]
+    - what: rectangle
+      bound: false
+      size: [1.25u-gap+2(wallxy+min_wall_thickness), u-gap+2(wallxy+min_wall_thickness)]
+      where: twofive
+    - what: rectangle
+      bound: false
+      size: [1.5u-gap+2(wallxy+min_wall_thickness), u-gap+2(wallxy+min_wall_thickness)]
+      where: five
+    - what: rectangle
+      bound: false
+      size: [1.75u-gap+2(wallxy+min_wall_thickness), u-gap+2(wallxy+min_wall_thickness)]
+      where: sevenfive
+  switch_cutouts:
+    - what: rectangle
+      where: [alphas, thumbs, flex]
+      # size: switch_xy_choc
+      size: switch_xy_mx
+  _mcu_cutout:
+    - what: rectangle
+      where: ref_mcu
+      size: [mcux+2, mcuy+2]
+      adjust.shift: [0, -0.03]
+  _battery_zone:
+    - what: rectangle
+      where: ref_battery
+      size: [bcx, bcy]
+  _battery_cutout: # bigger is better for case fit!
+    - what: rectangle
+      where: ref_battery
+      size: [bcx+4, bcy+4]
+  _battery_connector_cutout:
+    - what: rectangle
+      where: ref_battery_connector
+      adjust.shift: [0, 0]
+      size: [8.42, 5.82+3]
+    - what: rectangle # connect to nearby cutouts
+      where: ref_battery_connector
+      adjust.shift: [0, 3.5]
+      size: [8.42, 5.82+3]
+  _switch_power_cutout: # bigger is better for case fit!
+    - what: rectangle # housing
+      where: ref_switch_power
+      size: [14, 19]
+    - what: rectangle # pads
+      where: ref_switch_power
+      size: [7.5, 25]
+  _switch_reset_cutout:
+    - what: rectangle
+      where: ref_switch_reset
+      adjust.shift: [0, 0.2]
+      size: [rcx, rcy]
+    - what: rectangle # fill in gaps
+      where: ref_switch_reset
+      adjust.shift: [0, 2.5]
+      size: [rcx, rcy]
+  case_cutouts:
+    - name: _mcu_cutout
+    - name: _battery_cutout
+    - name: _battery_connector_cutout
+    - name: _switch_power_cutout
+    - name: _switch_reset_cutout
+  keycaps:
+    - what: rectangle
+      where: [alphas, thumbs]
+      size: [u-gap, u-gap]
+    - what: rectangle
+      where: twofive
+      size: [1.25u-gap, u-gap]
+    - what: rectangle
+      where: five
+      size: [1.5u-gap, u-gap]
+    - what: rectangle
+      where: sevenfive
+      size: [1.75u-gap, u-gap]
+    - what: rectangle
+      where: flex
+      size: lxy
+  pcb:
+    - name: _pcb_shape
+      # fillet: 1.7
+    # - name: _debug_ref_center
+    #   operation: stack
+    # - name: _key_walls_check # for debugging
+    #   operation: stack # for debugging
+    # - name: key_walls # for debugging
+    #   operation: stack # for debugging
+    # - name: case_cutouts # for debugging
+    #   operation: stack # for debugging
+  screws: #threaded insert diameter for case
+    - what: circle
+      where: /screw_/
+      radius: 0.5tid
+  _choc_v1_v2_pin_cutouts:
+    - what: circle # cutout for lofree central pin
+      where: [alphas, thumbs]
+      radius: (4.8/2)+0.4
+    - what: circle # cutout for choc v1 stab pins
+      where: [alphas, thumbs]
+      adjust.shift: [5.5, 0]
+      radius: 1
+    - what: circle # cutout for choc v1 stab pins
+      where: [alphas, thumbs]
+      adjust.shift: [-5.5, 0]
+      radius: 1
+  preview:
+    - name: pcb
+    - name: keycaps
+      operation: stack
+  _hotswap_cutouts: # use as locations for point placement feature script
+    - what: circle
+      where: [alphas, thumbs]
+      radius: 1
+      adjust.shift: [0, 5.9]
+  case_bottom: 
+    - name: _pcb_shape
+    - what: rectangle # add material for reset switch
+      where: ref_switch_reset
+      size: [rcx-2case_offset, rcy]
+      adjust.shift: [0, 2case_offset]
+      operation: add
+    - name: _choc_v1_v2_pin_cutouts
+      operation: stack
+    - what: circle # power button cutout
+      where: ref_switch_power
+      radius: 7.4/2
+      operation: stack
+    - name: _hotswap_cutouts
+      operation: stack
+    - what: circle # reset pin cutouts
+      where: ref_switch_reset
+      radius: 2.5/2
+      adjust.shift: [-3.5, 1.25]
+      operation: stack
+    - what: circle
+      where: ref_switch_reset
+      radius: 2.5/2
+      adjust.shift: [3.5, 1.25]
+      operation: stack
+    - what: circle
+      where: ref_switch_reset
+      radius: 2.5/2
+      adjust.shift: [-2.5, -1.25]
+      operation: stack
+    - what: circle
+      where: ref_switch_reset
+      radius: 2.5/2
+      adjust.shift: [2.5, -1.25]
+      operation: stack
+    - what: circle # screw hole cutouts
+      where: /^screw_./
+      radius: 0.5scb
+      operation: stack
+    - what: circle # screwhead cutouts
+      where: /^screw_./
+      radius: 0.5sch
+      operation: stack
+
+pcbs:
+  Block: # name must be capitalized or bugs!
+    outlines:
+      # - outline: pcb
+      # - outline: _battery_zone
+      #   layer: F.SilkS
+      - outline: preview # debugging
+    footprints:
+      mcu:
+        what: mcu_nice_nano
+        where: ref_mcu
+        # adjust.rotate: 90
+        params:
+          reversible: false
+          show_silk_labels_on_both_sides: false
+          P21: C1
+          P20: C2
+          P19: C3
+          P18: C4
+          P15: C5
+          P14: C6
+          P16: C7
+          P10: C8
+
+          # P2:
+          # P3:
+          P4: R1
+          P5: R2
+          P6: R3
+          P7: R4
+          P8: C9
+          P9: C10
+
+      switches:
+        what: switch_choc_v1_v2
+        where: [alphas, thumbs, flex]
+        params:
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+          reversible: false
+          hotswap: true
+          # solder: true
+          outer_pad_width_back: 2.4
+          # outer_pad_width_front: 2.4
+          include_stabilizer_pad: false
+          # show_corner_marks: true
+          # show_keycaps: true
+          keycaps_x: u-gap
+          keycaps_y: u-gap
+      # diodes:
+      #   what: combo_diode
+      #   where: [alphas, thumbs]
+      #   params:
+      #     side: F
+      #     from: "{{colrow}}"
+      #     to: "{{row_net}}"
+      #     include_tht: false
+      #   adjust:
+      #     shift: [0, -5]
+      #     resist: true
+      switch_reset:
+        what: SKHLLCA010
+        where: ref_switch_reset
+        adjust:
+          rotate: 180
+      switch_power:
+        what: switch_power_1208YD
+        where: ref_switch_power
+        adjust.rotate: -90
+        params:
+          pad1: RAW
+      battery_connector:
+        what: conn_molex_pico_front
+        where: ref_battery_connector
+        adjust.rotate: 180
+        params:
+          reverse: false
+          pad_1: BAT_CONN
+
+      # m2_screws:
+      #   what: infused-kim/mounting_hole
+      #   # changed courtyard_offset in mounting_hole.js to 0.47
+      #   # increases outline to m2 screwhead size (diameter ~3.4mm)
+      #   where: /screw_/
+      #   params:
+      #     drill: scd
+      #     outline: 0.13
+      battery_text:
+        what: text
+        where: ref_battery
+        params:
+          text: BATTERY
+          reverse: false
+          knockout: true
+        adjust:
+          shift: [3.5-0.0420, 15.4]
