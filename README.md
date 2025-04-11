@@ -12,8 +12,8 @@ Emissary is a 37-key wireless, alpha stagger keyboard with integrated lever keyc
 
 ***
 
-[2](photos/2.jpg)
-[3](photos/3.jpg)
-[4](photos/4.jpg)
-[5](photos/5.jpg)
+![2](photos/2.jpg)
+![3](photos/3.jpg)
+![4](photos/4.jpg)
+![5](photos/5.jpg)
 
